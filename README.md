@@ -1,6 +1,6 @@
 # Instagram Clone Using React, Express and MongoDB
 
-## To started the backend
+## To start the backend
 
 In the root project directory, cd into server directory and run:
 
@@ -12,7 +12,7 @@ and then
 
 Runs the backend in the development mode.\
 
-## To started the frontend
+## To start the frontend
 
 In the root project directory, cd into client directory and run:
 
