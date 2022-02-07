@@ -1,0 +1,8 @@
+.image-gallery {
+  /* margin-right: 20rem;
+  margin-left: 20rem; */
+}
+
+.image-single {
+  object-fit: cover;
+}
