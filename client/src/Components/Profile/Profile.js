@@ -5,13 +5,16 @@ import Navbar from "../Navbar/Navbar";
 import "./Profile.css";
 const Profile = () => {
   const [user, setUser] = useState([]);
+  const [posts, setPosts] = useState([]);
   const [expandImage, setExpandImage] = useState(false);
   const [ModalImage, setModalImage] = useState("");
 
   useEffect(() => {
     const getuser = async () => {
-      const response = await userFinder.get("/LarMax");
-      setUser(response.data[0]);
+      const getUser = await userFinder.get("/user/rayray");
+      setUser(getUser.data[0]);
+      const posts = await userFinder.get("/posts/rayray");
+      setPosts(posts.data);
     };
     getuser();
   }, []);
@@ -39,7 +42,10 @@ const Profile = () => {
                 <div className="column is-4">
                   <h2 className="is-size-4 mb-3">{user.userName}</h2>
                   <div className="is-flex is-justify-content-space-between mb-3">
-                    <h2>Posts</h2>
+                    <h2>
+                      <strong>{posts.length} </strong>
+                      Posts
+                    </h2>
                     <h2>Followers</h2>
                     <h2>Saved</h2>
                   </div>
@@ -56,17 +62,17 @@ const Profile = () => {
           <div className="columns is-centered">
             <div className="column is-8">
               <div className="columns is-multiline">
-                {user.images &&
-                  user.images.map((image) => {
+                {posts &&
+                  posts.map((post) => {
                     return (
                       <div
-                        key={image._id}
+                        key={post._id}
                         className="column is-4"
-                        onClick={() => toggleExpandImage(image.src)}
+                        onClick={() => toggleExpandImage(post.imageURL)}
                       >
                         <div className={expandImage ? "modal is-active" : "modal"}>
                           <div className="modal-background"></div>
-                          <div className="modal-content">
+                          <div className="modal-content image-modal">
                             <div className="columns">
                               <div className="column is-two-thirds">
                                 <figure>
@@ -79,7 +85,7 @@ const Profile = () => {
                           <button className="modal-close is-large" aria-label="close"></button>
                         </div>
                         <figure className="image is-square">
-                          <img className="image-single" src={image.src} alt="gallery" />
+                          <img className="image-single" src={post.imageURL} alt="gallery" />
                         </figure>
                       </div>
                     );

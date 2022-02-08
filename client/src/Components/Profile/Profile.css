@@ -6,3 +6,7 @@
 .image-single {
   object-fit: cover;
 }
+
+.image-modal {
+  width: 1080px;
+}
