@@ -8,6 +8,7 @@ const app = express();
 // const User = require("./models/mongoose");
 const Post = require("./models/mongoose");
 const { findByIdAndUpdate } = require("./models/mongoose");
+const User = require("./models/userModel");
 
 const { json } = express;
 
@@ -17,6 +18,24 @@ app.use(express.json());
 app.use(json());
 
 const userName = "rayray";
+
+// create a user, signup stage
+app.post("/api/user/", async (req, res) => {
+  try {
+    const body = req.body;
+    const user = await new User({
+      userName: body.userName,
+      name: body.name,
+      profileImg: body.profileImg || "",
+      following: []
+    });
+    const savedUser = await user.save();
+
+    res.json(savedUser);
+  } catch (err) {
+    console.error(err);
+  }
+});
 
 // Get all posts
 
@@ -29,23 +48,27 @@ app.get("/api/posts", async (req, res) => {
   }
 });
 
-// create a user
-app.post("/api/user/", (req, res) => {
-  try {
-    const body = req.body;
-    const user = new User({
-      userName: body.userName,
-      name: body.name,
-      profileImg: body.profileImg || "",
-      images: [],
-      following: []
-    });
+// Get user's posts
 
-    user.save().then((savedUser) => {
-      res.json(savedUser);
-    });
+app.get("/api/posts/:userName", async (req, res) => {
+  try {
+    const userName = req.params.userName;
+    const userPosts = await Post.find({ userName: userName }).sort({ createdAt: -1 });
+    res.json(userPosts);
   } catch (err) {
-    console.error(err);
+    console.error(err.message);
+  }
+});
+
+//get user
+
+app.get("/api/user/:userName", async (req, res) => {
+  try {
+    const userName = req.params.userName;
+    const user = await User.find({ userName: userName });
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
   }
 });
 
@@ -104,7 +127,7 @@ app.post("/api/comment", async (req, res) => {
     { $push: { comments: { author, comment } } },
     { returnDocument: "after" }
   );
-  const posts = await Post.find({});
+  const posts = await Post.find({}).sort({ createdAt: -1 });
   res.json(posts);
 });
 
