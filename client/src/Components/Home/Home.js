@@ -10,7 +10,6 @@ const author = "rayray";
 
 const Home = () => {
   const { posts, setPosts } = useContext(PostsContext);
-  // const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     const fetchPosts = async () => {

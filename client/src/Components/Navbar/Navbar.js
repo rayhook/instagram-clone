@@ -124,7 +124,7 @@ const Navbar = () => {
           aria-label="close"
         ></button>
       </div>
-      <div className="navbar is-vcentered is-fixed-top">
+      <div className="navbar is-vcentered is-fixed-top ">
         <div className="column"></div>
         <div className="column">
           <h2 className="is-size-3 is-family-primary">Instagram</h2>
