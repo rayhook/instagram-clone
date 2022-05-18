@@ -7,7 +7,6 @@ const app = express();
 
 // const User = require("./models/mongoose");
 const Post = require("./models/mongoose");
-const { findByIdAndUpdate } = require("./models/mongoose");
 const User = require("./models/userModel");
 
 const { json } = express;
@@ -18,6 +17,10 @@ app.use(express.json());
 app.use(json());
 
 const userName = "rayray";
+
+app.get("/", (req, res) => {
+  res.send("Welcome to Instagram-clone API");
+});
 
 // create a user, signup stage
 app.post("/api/user/", async (req, res) => {
@@ -86,7 +89,7 @@ app.post("/api/newPost", async (req, res) => {
     };
     const newPost = new Post(post);
     await newPost.save();
-    const posts = await Post.find({});
+    const posts = await Post.find({}).sort({ createdAt: -1 });
     res.json(posts);
   } catch (err) {
     console.error(err.message);
@@ -115,8 +118,6 @@ app.put("/api/like", async (req, res) => {
   }
 });
 
-//
-
 app.post("/api/comment", async (req, res) => {
   const id = req.body.id;
   const author = req.body.author;
@@ -140,6 +141,6 @@ app.delete("api/user/:id", (req, res) => {
   }
 });
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
