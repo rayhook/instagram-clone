@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "https://react-inst-clone.herokuapp.com/api/"
+  baseURL: "https://insta-backend.onrender.com/api/"
 });
