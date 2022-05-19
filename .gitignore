@@ -1,5 +1,6 @@
 # gitignore for Client and server
 
+node_modules
 /client/node_modules
 
 
